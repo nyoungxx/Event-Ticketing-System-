@@ -1,0 +1,77 @@
+
+Unnormalized Data (UNF) Example
+Consider a single table holding everything:
+
+
+OrderID	CustomerName	Email	Phone	EventName	EventDate	VenueName	TicketType	Price	Quantity
+1 Chris Johns	john@email.com	555-5555	Concert A	2025-10-01	Music X Arena 	VIP, LA	100,50	1,2
+This table violates all three normal forms.
+
+First Normal Form (1NF)
+Rule: No repeating groups, atomic values only.
+
+Split multiple values in TicketType, Price, Quantity:
+Orders
+
+
+OrderID	CustomerName	Email	Phone	EventName	EventDate	VenueName
+1	Chris Johns	john@email.com	555-5555	Concert A	2025-10-01	Music X Arena
+OrderItems
+
+
+OrderID	TicketType	Price	Quantity
+1	VIP	200	1
+1	GA	100	2
+Second Normal Form (2NF)
+Rule: No partial dependencies (i.e., all non-key attributes depend on the full primary key).
+
+We separate data into distinct entities and move data that depends only on part of a composite key into its own table.
+
+Entities:
+Customers
+
+
+CustomerID	Name	Email	Phone
+1	Chris Johns	john@email.com	555-5555
+Venues
+
+
+VenueID	Name	Address	Capacity
+1	Music X Arena 	[Address]	[Cap]
+Events
+
+
+EventID	Name	Date	VenueID
+1	Concert A	2025-10-01	1
+Tickets
+
+
+TicketID	EventID	Type	Price	QuantityAvailable
+1	1	VIP	100	150
+2	1	GA	50	500
+Orders
+
+
+OrderID	CustomerID	OrderDate	TotalAmount
+1	1	2025-04-20	200
+OrderItems
+
+
+OrderItemID	OrderID	TicketID	Quantity	PricePerTicket
+1	1	1	1	200
+2	1	2	2	100
+Third Normal Form (3NF)
+Rule: No transitive dependencies
+We separate data into distinct entities and move data that depends only on part of a composite key into its own table.
+We already achieved 3NF by separating:
+
+Venue details from events
+
+Customer details from orders
+
+Ticket details from order items
+
+Prices are stored only in Ticket and copied into OrderItems for record keeping.
+
+3NF is the final normal form and can be found on ERD diagrams.
+
